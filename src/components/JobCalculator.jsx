@@ -111,7 +111,7 @@ const JobCalculator = () => {
     const marketingFactor = marketing.reach / 100;
     const durationFactor = Math.min(marketing.duration / 30, 12) / 12;
 
-    // Campaign factors
+    // Campaign factors calculation
     const wechselgruendeBoost = campaignFactors.wechselgruende.length * 0.2;
     const anreizeBoost = campaignFactors.anreize.length * 0.25;
     const hinderungsReduction = campaignFactors.hinderungsgruende.length * -0.2;
