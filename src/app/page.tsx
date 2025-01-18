@@ -1,9 +1,9 @@
-import JobCalculator from '@/components/JobCalculator';
+import ClientWrapper from '@/components/ClientWrapper';
 
 export default function Home() {
   return (
-    <main className="container mx-auto p-4">
-      <JobCalculator />
+    <main className="container mx-auto">
+      <ClientWrapper />
     </main>
-  )
+  );
 }
