@@ -1,24 +1,21 @@
 import React, {useState, useEffect} from 'react';
-import {Card, CardHeader, CardTitle, CardContent} from '@/components/ui/card';
-import {Slider} from '@/components/ui/slider';
-import {Switch} from '@/components/ui/switch';
-import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from '@/components/ui/select';
-import {Badge} from '@/components/ui/badge';
-import {Briefcase, Gift, Megaphone, Map} from 'lucide-react';
+import {Card, CardHeader, CardTitle, CardContent} from '../../components/ui/card';
+import {Slider} from '../../components/ui/slider';
+import {Switch} from '../../components/ui/switch';
+import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from '../../components/ui/select';
+import {Badge} from '../../components/ui/badge';
 
 const JobCalculator = () => {
+  const [mounted, setMounted] = useState(false);
   const [selectedRegion, setSelectedRegion] = useState('vorarlberg');
-  const [totalReach, setTotalReach] = useState(100);
+  const [totalReach, setTotalReach] = useState(0);
   const [reachablePersons, setReachablePersons] = useState(0);
 
   const [requirements, setRequirements] = useState({
     distance: 30,
-    position: 'junior',
-    experience: 'keine',
-    workTime: 'vollzeit',
-    segment: 'all',
-    ageGroup: 'all',
-    demographic: 'all',
+    segment: 'four_star',
+    ageGroup: '25_35',
+    demographic: 'gender_male',
   });
 
   const [marketing, setMarketing] = useState({
@@ -41,24 +38,38 @@ const JobCalculator = () => {
     loesungsansaetze: [],
   });
 
-  const calculateReach = () => {
-    // Basis-Reichweite je nach Region
-    const basePopulation = {
-      vorarlberg: 2500,
-      tirol: 4500,
-      salzburg: 3800,
-      kaernten: 3200,
-      steiermark: 4800,
-      oberoesterreich: 5200,
-      niederoesterreich: 5800,
-      wien: 7500,
-      burgenland: 2200,
-    }[selectedRegion];
+  // Mount effect
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
-    // Distanz-Faktor (1% bei 0km bis 100% bei 100km)
+  useEffect(() => {
+    if (mounted) {
+      calculateReach();
+    }
+  }, [mounted, requirements, marketing, powerUps, selectedRegion, campaignFactors]);
+
+  const calculateReach = () => {
+    if (!mounted) return;
+
+    // Base population data
+    const basePopulation =
+      {
+        vorarlberg: 2500,
+        tirol: 4500,
+        salzburg: 3800,
+        kaernten: 3200,
+        steiermark: 4800,
+        oberoesterreich: 5200,
+        niederoesterreich: 5800,
+        wien: 7500,
+        burgenland: 2200,
+      }[selectedRegion] || 0;
+
+    // Calculate factors
     const distanceFactor = 0.01 + 0.99 * (requirements.distance / 100);
 
-    // Segment-Faktor
+    // Segment factors
     const segmentFactors = {
       all: 1.0,
       five_star: 0.05,
@@ -69,7 +80,7 @@ const JobCalculator = () => {
     };
     const segmentFactor = segmentFactors[requirements.segment];
 
-    // Altersgruppen-Faktor
+    // Age factors
     const ageFactors = {
       all: 1.0,
       under_25: 0.2,
@@ -80,7 +91,7 @@ const JobCalculator = () => {
     };
     const ageFactor = ageFactors[requirements.ageGroup];
 
-    // Demographischer Faktor
+    // Demographic factors
     const demoFactors = {
       all: 1.0,
       gender_male: 0.45,
@@ -93,23 +104,23 @@ const JobCalculator = () => {
     };
     const demoFactor = demoFactors[requirements.demographic];
 
-    // Power-Ups Multiplikator
+    // Power-ups factor
     const powerUpsFactor = Object.values(powerUps).filter(Boolean).length * 0.2 + 1;
 
-    // Marketing-Faktoren
+    // Marketing factors
     const marketingFactor = marketing.reach / 100;
     const durationFactor = Math.min(marketing.duration / 30, 12) / 12;
 
-    // Berechne Kampagnen-Faktoren
+    // Campaign factors
     const wechselgruendeBoost = campaignFactors.wechselgruende.length * 0.2;
     const anreizeBoost = campaignFactors.anreize.length * 0.25;
     const hinderungsReduction = campaignFactors.hinderungsgruende.length * -0.2;
     const loesungsBoost = campaignFactors.loesungsansaetze.length * 0.25;
 
-    const campaignMultiplier = 1 + wechselgruendeBoost + anreizeBoost + hinderungsReduction * -1 + loesungsBoost;
+    const campaignMultiplier = 1 + wechselgruendeBoost + anreizeBoost + Math.abs(hinderungsReduction) + loesungsBoost;
 
-    // Gesamtberechnung
-    let reach =
+    // Calculate total reach
+    const reach =
       basePopulation *
       distanceFactor *
       segmentFactor *
@@ -124,19 +135,20 @@ const JobCalculator = () => {
     setReachablePersons(Math.round(reach * 10));
   };
 
-  useEffect(() => {
-    calculateReach();
-  }, [requirements, marketing, powerUps, campaignFactors]);
+  // Don't render anything until mounted
+  if (!mounted) {
+    return null;
+  }
 
   return (
-    <div className="w-full max-w-4xl mx-auto p-4 space-y-6">
+    <div className="w-full max-w-4xl mx-auto p-4">
       <Card>
         <CardHeader>
           <CardTitle>Stellenreichweiten-Kalkulator</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-8">
-            {/* 1. Zielgruppen-Definition */}
+            {/* 1. Target Group Definition */}
             <section>
               <h2 className="text-xl font-bold mb-4">1. Zielgruppen-Definition</h2>
 
@@ -226,8 +238,8 @@ const JobCalculator = () => {
                 </Select>
               </div>
 
-              {/* Distance */}
-              <div className="space-y-4 mb-6">
+              {/* Distance Slider */}
+              <div className="space-y-4">
                 <label className="block text-sm font-medium">Maximale Distanz: {requirements.distance}km</label>
                 <Slider
                   value={[requirements.distance]}
@@ -238,7 +250,7 @@ const JobCalculator = () => {
               </div>
             </section>
 
-            {/* 2. Zusatzleistungen */}
+            {/* 2. Additional Benefits */}
             <section>
               <h2 className="text-xl font-bold mb-4">2. Zusatzleistungen</h2>
               <div className="grid grid-cols-2 gap-4">
@@ -260,8 +272,8 @@ const JobCalculator = () => {
               </div>
             </section>
 
-            {/* 3. Recruiting Kampagne */}
-            <section className="border-t pt-8">
+            {/* 3. Marketing Campaign */}
+            <section>
               <h2 className="text-xl font-bold mb-4">3. Recruiting Kampagne</h2>
 
               {/* Marketing Metrics */}
