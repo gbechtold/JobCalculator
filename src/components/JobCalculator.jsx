@@ -1,9 +1,10 @@
+'use client';
+
 import React, {useState, useEffect} from 'react';
-import {Card, CardHeader, CardTitle, CardContent} from '../../components/ui/card';
-import {Slider} from '../../components/ui/slider';
-import {Switch} from '../../components/ui/switch';
-import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from '../../components/ui/select';
-import {Badge} from '../../components/ui/badge';
+import {Card, CardHeader, CardTitle, CardContent} from '@/components/ui/card';
+import {Slider} from '@/components/ui/slider';
+import {Switch} from '@/components/ui/switch';
+import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from '@/components/ui/select';
 
 const JobCalculator = () => {
   const [mounted, setMounted] = useState(false);
@@ -38,7 +39,6 @@ const JobCalculator = () => {
     loesungsansaetze: [],
   });
 
-  // Mount effect
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -52,7 +52,6 @@ const JobCalculator = () => {
   const calculateReach = () => {
     if (!mounted) return;
 
-    // Base population data
     const basePopulation =
       {
         vorarlberg: 2500,
@@ -66,10 +65,8 @@ const JobCalculator = () => {
         burgenland: 2200,
       }[selectedRegion] || 0;
 
-    // Calculate factors
     const distanceFactor = 0.01 + 0.99 * (requirements.distance / 100);
 
-    // Segment factors
     const segmentFactors = {
       all: 1.0,
       five_star: 0.05,
@@ -80,7 +77,6 @@ const JobCalculator = () => {
     };
     const segmentFactor = segmentFactors[requirements.segment];
 
-    // Age factors
     const ageFactors = {
       all: 1.0,
       under_25: 0.2,
@@ -91,7 +87,6 @@ const JobCalculator = () => {
     };
     const ageFactor = ageFactors[requirements.ageGroup];
 
-    // Demographic factors
     const demoFactors = {
       all: 1.0,
       gender_male: 0.45,
@@ -104,14 +99,10 @@ const JobCalculator = () => {
     };
     const demoFactor = demoFactors[requirements.demographic];
 
-    // Power-ups factor
     const powerUpsFactor = Object.values(powerUps).filter(Boolean).length * 0.2 + 1;
-
-    // Marketing factors
     const marketingFactor = marketing.reach / 100;
     const durationFactor = Math.min(marketing.duration / 30, 12) / 12;
 
-    // Campaign factors calculation
     const wechselgruendeBoost = campaignFactors.wechselgruende.length * 0.2;
     const anreizeBoost = campaignFactors.anreize.length * 0.25;
     const hinderungsReduction = campaignFactors.hinderungsgruende.length * -0.2;
@@ -119,7 +110,6 @@ const JobCalculator = () => {
 
     const campaignMultiplier = 1 + wechselgruendeBoost + anreizeBoost + Math.abs(hinderungsReduction) + loesungsBoost;
 
-    // Calculate total reach
     const reach =
       basePopulation *
       distanceFactor *
@@ -135,14 +125,13 @@ const JobCalculator = () => {
     setReachablePersons(Math.round(reach * 10));
   };
 
-  // Don't render anything until mounted
   if (!mounted) {
     return null;
   }
 
   return (
     <div className="w-full max-w-4xl mx-auto p-4">
-      <Card>
+      <Card className="shadow-lg border-slate-200 dark:border-slate-700">
         <CardHeader>
           <CardTitle>Stellenreichweiten-Kalkulator</CardTitle>
         </CardHeader>
@@ -156,7 +145,7 @@ const JobCalculator = () => {
               <div className="space-y-4 mb-6">
                 <label className="block text-sm font-medium">Region</label>
                 <Select value={selectedRegion} onValueChange={setSelectedRegion}>
-                  <SelectTrigger>
+                  <SelectTrigger className="w-full border-2 border-slate-200 dark:border-slate-700">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -180,7 +169,7 @@ const JobCalculator = () => {
                   value={requirements.segment}
                   onValueChange={(value) => setRequirements((prev) => ({...prev, segment: value}))}
                 >
-                  <SelectTrigger>
+                  <SelectTrigger className="w-full border-2 border-slate-200 dark:border-slate-700">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -201,7 +190,7 @@ const JobCalculator = () => {
                   value={requirements.ageGroup}
                   onValueChange={(value) => setRequirements((prev) => ({...prev, ageGroup: value}))}
                 >
-                  <SelectTrigger>
+                  <SelectTrigger className="w-full border-2 border-slate-200 dark:border-slate-700">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -222,7 +211,7 @@ const JobCalculator = () => {
                   value={requirements.demographic}
                   onValueChange={(value) => setRequirements((prev) => ({...prev, demographic: value}))}
                 >
-                  <SelectTrigger>
+                  <SelectTrigger className="w-full border-2 border-slate-200 dark:border-slate-700">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -246,6 +235,7 @@ const JobCalculator = () => {
                   onValueChange={([value]) => setRequirements((prev) => ({...prev, distance: value}))}
                   max={100}
                   step={5}
+                  className="w-full"
                 />
               </div>
             </section>
@@ -265,6 +255,7 @@ const JobCalculator = () => {
                     <Switch
                       checked={powerUps[key]}
                       onCheckedChange={(checked) => setPowerUps((prev) => ({...prev, [key]: checked}))}
+                      className="border-2 border-slate-300 dark:border-slate-600"
                     />
                     <span>{label}</span>
                   </div>
@@ -285,6 +276,7 @@ const JobCalculator = () => {
                     onValueChange={([value]) => setMarketing((prev) => ({...prev, reach: value}))}
                     max={100}
                     step={5}
+                    className="w-full"
                   />
                 </div>
 
@@ -296,12 +288,13 @@ const JobCalculator = () => {
                     min={7}
                     max={365}
                     step={7}
+                    className="w-full"
                   />
                 </div>
               </div>
 
               {/* Wechselgründe */}
-              <div className="space-y-4 mb-8 bg-gray-50 p-4 rounded-lg">
+              <div className="space-y-4 mb-8 bg-slate-50 dark:bg-slate-800 p-4 rounded-lg border border-slate-200 dark:border-slate-700">
                 <label className="block text-sm font-medium">Wechselgründe (+)</label>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {[
@@ -323,6 +316,7 @@ const JobCalculator = () => {
                               : prev.wechselgruende.filter((id) => id !== grund.id),
                           }));
                         }}
+                        className="border-2 border-slate-300 dark:border-slate-600"
                       />
                       <span>
                         {grund.label} (+{grund.boost}%)
@@ -333,7 +327,7 @@ const JobCalculator = () => {
               </div>
 
               {/* Anreize */}
-              <div className="space-y-4 mb-8 bg-gray-50 p-4 rounded-lg">
+              <div className="space-y-4 mb-8 bg-slate-50 dark:bg-slate-800 p-4 rounded-lg border border-slate-200 dark:border-slate-700">
                 <label className="block text-sm font-medium">Erforderliche Anreize (+)</label>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {[
@@ -355,6 +349,7 @@ const JobCalculator = () => {
                               : prev.anreize.filter((id) => id !== anreiz.id),
                           }));
                         }}
+                        className="border-2 border-slate-300 dark:border-slate-600"
                       />
                       <span>
                         {anreiz.label} (+{anreiz.boost}%)
@@ -365,7 +360,7 @@ const JobCalculator = () => {
               </div>
 
               {/* Hinderungsgründe */}
-              <div className="space-y-4 mb-8 bg-gray-50 p-4 rounded-lg">
+              <div className="space-y-4 mb-8 bg-slate-50 dark:bg-slate-800 p-4 rounded-lg border border-slate-200 dark:border-slate-700">
                 <label className="block text-sm font-medium">Hinderungsgründe (-)</label>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {[
@@ -387,6 +382,7 @@ const JobCalculator = () => {
                               : prev.hinderungsgruende.filter((id) => id !== grund.id),
                           }));
                         }}
+                        className="border-2 border-slate-300 dark:border-slate-600"
                       />
                       <span>
                         {grund.label} (-{grund.reduction}%)
@@ -397,7 +393,7 @@ const JobCalculator = () => {
               </div>
 
               {/* Lösungsansätze */}
-              <div className="space-y-4 mb-8 bg-gray-50 p-4 rounded-lg">
+              <div className="space-y-4 mb-8 bg-slate-50 dark:bg-slate-800 p-4 rounded-lg border border-slate-200 dark:border-slate-700">
                 <label className="block text-sm font-medium">Lösungsansätze (+)</label>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {[
@@ -419,6 +415,7 @@ const JobCalculator = () => {
                               : prev.loesungsansaetze.filter((id) => id !== loesung.id),
                           }));
                         }}
+                        className="border-2 border-slate-300 dark:border-slate-600"
                       />
                       <span>
                         {loesung.label} (+{loesung.boost}%)
@@ -431,18 +428,20 @@ const JobCalculator = () => {
 
             {/* Results Dashboard */}
             <section className="border-t pt-8">
-              <div className="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-lg">
+              <div className="bg-gradient-to-r from-slate-50 to-slate-100 dark:from-slate-800 dark:to-slate-900 p-6 rounded-lg border border-slate-200 dark:border-slate-700">
                 <h2 className="text-xl font-bold mb-6">Kampagnen-Ergebnis</h2>
                 <div className="grid grid-cols-2 gap-8">
                   <div>
-                    <div className="text-sm font-medium text-gray-600">Potenzielle Kandidaten</div>
-                    <div className="text-3xl font-bold text-blue-600">{reachablePersons}</div>
-                    <div className="text-sm text-gray-500 mt-1">Basis: {selectedRegion} Region</div>
+                    <div className="text-sm font-medium text-slate-600 dark:text-slate-400">Potenzielle Kandidaten</div>
+                    <div className="text-3xl font-bold text-blue-600 dark:text-blue-400">{reachablePersons}</div>
+                    <div className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+                      Basis: {selectedRegion} Region
+                    </div>
                   </div>
                   <div>
-                    <div className="text-sm font-medium text-gray-600">Gesamtreichweite</div>
-                    <div className="text-3xl font-bold text-indigo-600">{totalReach}%</div>
-                    <div className="text-sm text-gray-500 mt-1">inkl. aller Faktoren</div>
+                    <div className="text-sm font-medium text-slate-600 dark:text-slate-400">Gesamtreichweite</div>
+                    <div className="text-3xl font-bold text-indigo-600 dark:text-indigo-400">{totalReach}%</div>
+                    <div className="text-sm text-slate-500 dark:text-slate-400 mt-1">inkl. aller Faktoren</div>
                   </div>
                 </div>
               </div>

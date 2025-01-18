@@ -1,36 +1,84 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Job Calculator
 
-## Getting Started
+Ein intelligenter Rechner zur Bestimmung der Reichweite von Stellenanzeigen im Hotelgewerbe.
 
-First, run the development server:
+## 🚀 Features
+
+- Regionale Reichweitenberechnung für ganz Österreich
+- Detaillierte Segmentierung nach Hotelkategorien
+- Demografische Zielgruppenauswahl
+- Powerup-System für zusätzliche Reichweite
+- Dynamische Kampagnenfaktoren
+- Responsive Design
+- Echtzeit-Berechnungen
+
+## 🛠 Technologien
+
+- React 19
+- Next.js 15
+- TypeScript
+- Tailwind CSS
+- shadcn/ui Components
+- Radix UI Primitives
+
+## 📦 Installation
 
 ```bash
+# Repository klonen
+git clone https://github.com/gbechtold/JobCalculator.git
+
+# In das Projektverzeichnis wechseln
+cd JobCalculator
+
+# Abhängigkeiten installieren
+npm install
+
+# Entwicklungsserver starten
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🏗 Projekt-Struktur
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+src/
+├── app/                    # Next.js App Router
+├── components/            # React Komponenten
+│   ├── Calculator/       # Hauptrechner-Komponente
+│   └── ui/              # UI Komponenten
+└── lib/                 # Utilities
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🧪 Entwicklung
 
-## Learn More
+```bash
+# Entwicklungsserver
+npm run dev
 
-To learn more about Next.js, take a look at the following resources:
+# TypeScript-Check
+npm run type-check
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# Linting
+npm run lint
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+# Build
+npm run build
+```
 
-## Deploy on Vercel
+## 🚀 Deployment
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Das Projekt kann einfach auf Vercel oder anderen Next.js-kompatiblen Hosting-Plattformen deployt werden.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Deployment auf GitHub Pages
+
+1. Repository Settings öffnen
+2. Pages aktivieren
+3. Build Command: `npm run build && npm run export`
+4. Output Directory: `out`
+
+## 📄 Lizenz
+
+MIT
+
+## 👥 Contribution
+
+Beiträge sind willkommen! Bitte erst Issues erstellen und dann Pull Requests einreichen.
