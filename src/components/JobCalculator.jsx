@@ -295,7 +295,7 @@ const JobCalculator = () => {
 
               {/* Wechselgründe */}
               <div className="space-y-4 mb-8 bg-slate-50 dark:bg-slate-800 p-4 rounded-lg border border-slate-200 dark:border-slate-700">
-                <label className="block text-sm font-medium">Wechselgründe (+)</label>
+                <label className="block text-sm font-medium">Möglich Wechselgründe zukünftiger Mitarbeiter (+)</label>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {[
                     {id: 'work_life', label: 'Work-Life-Balance', boost: 20},
