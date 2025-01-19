@@ -11,6 +11,15 @@
     "test": "jest",
     "test:watch": "jest --watch"
   },
+  "jest": {
+    "testEnvironment": "jsdom",
+    "setupFilesAfterEnv": [
+      "<rootDir>/jest.setup.js"
+    ],
+    "moduleNameMapper": {
+      "^@/(.*)$": "<rootDir>/src/$1"
+    }
+  },
   "dependencies": {
     "@radix-ui/react-select": "^2.1.4",
     "@radix-ui/react-slider": "^1.1.2",

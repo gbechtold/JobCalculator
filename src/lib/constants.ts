@@ -18,3 +18,6 @@ export const SEGMENTS = {
   two_star: { label: '2-Sterne und Pensionen', factor: 0.15 },
   apartments: { label: 'Ferienwohnungen', factor: 0.05 },
 } as const;
+
+export type Region = keyof typeof REGIONS;
+export type Segment = keyof typeof SEGMENTS;

@@ -1,5 +1,16 @@
-export type Region = keyof typeof import('./constants').REGIONS;
-export type Segment = keyof typeof import('./constants').SEGMENTS;
+import { Region, Segment } from './constants';
+
+export interface Requirements {
+  distance: number;
+  segment: Segment;
+  ageGroup: string;
+  demographic: string;
+}
+
+export interface Marketing {
+  reach: number;
+  duration: number;
+}
 
 export interface PowerUps {
   referral: boolean;
@@ -14,4 +25,12 @@ export interface CampaignFactors {
   anreize: string[];
   hinderungsgruende: string[];
   loesungsansaetze: string[];
+}
+
+export interface CalculatorState {
+  selectedRegion: Region;
+  requirements: Requirements;
+  marketing: Marketing;
+  powerUps: PowerUps;
+  campaignFactors: CampaignFactors;
 }
