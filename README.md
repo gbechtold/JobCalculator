@@ -1,84 +1,127 @@
-# Job Calculator
+# Job Calculator 🎯
 
-Ein intelligenter Rechner zur Bestimmung der Reichweite von Stellenanzeigen im Hotelgewerbe.
+A smart calculator for determining the reach of job advertisements in the hotel industry. This tool helps recruiters and HR professionals optimize their job posting strategy by calculating potential candidate reach based on various factors.
 
-## 🚀 Features
+## Features ✨
 
-- Regionale Reichweitenberechnung für ganz Österreich
-- Detaillierte Segmentierung nach Hotelkategorien
-- Demografische Zielgruppenauswahl
-- Powerup-System für zusätzliche Reichweite
-- Dynamische Kampagnenfaktoren
-- Responsive Design
-- Echtzeit-Berechnungen
+- Regional reach calculation for all of Austria
+- Hotel category segmentation
+- Demographic targeting
+- Power-up system for extended reach
+- Campaign factor analysis
+- Real-time calculations
+- Dark mode support
+- Responsive design
 
-## 🛠 Technologien
+## Tech Stack 🛠
 
-- React 19
-- Next.js 15
+- Next.js 14
+- React 18
 - TypeScript
 - Tailwind CSS
+- Zustand (State Management)
 - shadcn/ui Components
 - Radix UI Primitives
 
-## 📦 Installation
+## Getting Started 🚀
+
+### Prerequisites
+
+- Node.js 18 or higher
+- npm or yarn
+
+### Installation
+
+1. Clone the repository:
 
 ```bash
-# Repository klonen
-git clone https://github.com/gbechtold/JobCalculator.git
-
-# In das Projektverzeichnis wechseln
-cd JobCalculator
-
-# Abhängigkeiten installieren
-npm install
-
-# Entwicklungsserver starten
-npm run dev
+git clone https://your-repository-url/job-calculator.git
+cd job-calculator
 ```
 
-## 🏗 Projekt-Struktur
+2. Install dependencies:
+
+```bash
+npm install
+# or
+yarn install
+```
+
+3. Start the development server:
+
+```bash
+npm run dev
+# or
+yarn dev
+```
+
+4. Open [http://localhost:3000](http://localhost:3000) in your browser
+
+## Project Structure 📁
 
 ```
 src/
 ├── app/                    # Next.js App Router
-├── components/            # React Komponenten
-│   ├── Calculator/       # Hauptrechner-Komponente
-│   └── ui/              # UI Komponenten
-└── lib/                 # Utilities
+├── components/             # Shared components
+│   ├── ui/                # UI components
+│   └── ClientWrapper.tsx  # Client-side wrapper
+├── features/              # Feature modules
+│   └── calculator/        # Calculator feature
+│       ├── constants/     # Feature constants
+│       ├── model/        # Business logic
+│       ├── types/        # Type definitions
+│       └── ui/           # Feature UI components
+├── lib/                   # Shared utilities
+│   ├── constants.ts      # Global constants
+│   ├── types.ts          # Global types
+│   └── utils.ts          # Utility functions
+└── store/                # Global state management
 ```
 
-## 🧪 Entwicklung
+## Available Scripts 📝
 
 ```bash
-# Entwicklungsserver
-npm run dev
+# Development
+npm run dev          # Start development server
 
-# TypeScript-Check
-npm run type-check
+# Testing
+npm run test         # Run tests
+npm run test:watch   # Run tests in watch mode
 
-# Linting
-npm run lint
+# Code Quality
+npm run lint         # Run linting
+npm run format       # Format code
 
-# Build
-npm run build
+# Production
+npm run build        # Build for production
+npm run start        # Start production server
 ```
 
-## 🚀 Deployment
+## Calculation Features 🧮
 
-Das Projekt kann einfach auf Vercel oder anderen Next.js-kompatiblen Hosting-Plattformen deployt werden.
+The calculator takes into account various factors:
 
-### Deployment auf GitHub Pages
+- Geographic reach by region
+- Hotel segment specifics
+- Age group targeting
+- Demographic factors
+- Distance calculations
+- Power-up bonuses
+- Marketing reach
+- Campaign duration
+- Motivation factors
+- Incentives
+- Potential barriers
+- Solution approaches
 
-1. Repository Settings öffnen
-2. Pages aktivieren
-3. Build Command: `npm run build && npm run export`
-4. Output Directory: `out`
+## Contributing 🤝
 
-## 📄 Lizenz
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-MIT
+## License 📄
 
-## 👥 Contribution
-
-Beiträge sind willkommen! Bitte erst Issues erstellen und dann Pull Requests einreichen.
+This project is licensed under the MIT License - see the LICENSE file for details
